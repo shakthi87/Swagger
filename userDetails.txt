@@ -1,0 +1,126 @@
+{
+      "email": "shanthi@gmail.com",
+      "password": "shanthi@231",
+}
+{
+      "email": "shakthi@gmail.com",
+      "password": "shakthi@231",
+}
+{
+      "email": "arjun@gmail.com",
+  "password": "arjun@2311",
+}
+{
+      "email": "arun@gmail.com",
+  "password": "arun@231",
+}
+{ "email": "ram@gmail.com",
+  "password": "ram@231",
+  }
+{
+    "email":"rakii@gmail.com,
+    "password":"rakii@231"
+}
+{
+     "email": "reka@gmail.com",
+  "password": "Reka@231"
+}
+{
+
+}
+function getUser(callback) {
+            querieS.select(email)
+            .then((user) => {
+                console.log(user)
+           
+            if (user.length === 0) {
+                return callback("invalid user")
+            }
+            callback(null, user, password)
+            })
+
+ "/user/edit": {
+            "get": {
+                "tags":[
+                    "user"
+                ],
+                "summary": "user edit",
+                "description": "This API used for user edit account",
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "bad request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+
+"api_key": {
+                "type": "apiKey",
+                "name": "api_key",
+                "in": "header"
+            },
+
+new users
+{
+  "id":1
+  "email": "Sarvatha@gmail.com",
+  "password": "Sarvatha@231",
+  "name": "sarvatha",
+  "phone_no": "9788171134",
+  "DOB": "2015-04-23"
+},
+{
+  "id":2
+  "email": "sid@gmail.com",
+  "password": "Sid@231",
+  "name": "Sidd",
+  "phone_no": "9788171136",
+  "DOB": "2019-03-24"
+}
+{
+  "id":3
+  "email": "sidd@gmail.com",
+  "password": "SidD@231",
+  "name": "SIDD",
+  "phone_no": "9788171137",
+  "DOB": "2019-05-24"
+}
+{
+  "id":5
+  "email": "santhos@gmail.com",
+  "password": "Santhos@231",
+  "name": "Santhos",
+  "phone_no": "9788171138",
+  "DOB": "2003-09-21"
+}
+{
+  "id":6
+  "email": "anna@gmail.com",
+  "password": "Anna@231",
+  "name": "anna",
+  "phone_no": "9788171102",
+  "DOB": "2004-08-03"
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,693 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "USER DATABASE",
+        "version": "1.0.7",
+        "description": "User details are register,login,update,detele"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5001"
+        }
+    ],
+    "tags": [
+        {
+            "name": "user",
+            "description": "Everything about user"
+        },
+        {
+            "name": "feed",
+            "description": "Everything about user feed"
+        },
+        {
+            "name":"like",
+            "description":"Everything about user like"
+        },
+        {
+            "name":"comment",
+            "description":"Everything about user comment"
+        }
+    ],
+    "paths": {
+        "/user/signup": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create new user",
+                "description": "User details are register,login,update,detele",
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/user"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully register"
+                    },
+                    "400": {
+                        "description": "bad request"
+                    },
+                    "404": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "user login",
+                "description": "This API used for user login",
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/user/update/{id}": {
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "User update",
+                "description": "This API used for user to upload",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "bad request"
+                    },
+                    "401": {
+                        "description": "Access token is missing or invalid"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "user delete",
+                "description": "This API used for user delete account",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "user id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "bad request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/feed/allfeeds":{
+            "get":{
+                "tags":[
+                    "feed"
+                ],
+                "summary":"Get all feeds",
+                "description":"Get all feed details in this API ",
+                "parameters":[
+                    {
+                        "in":"query",
+                        "name":"page",
+                        "description":"Page no.",
+                        "required":true,
+                        "schema":{
+                            "type":"integer",
+                            "default":1
+                        }
+                    },
+                    {
+                        "in":"query",
+                        "name":"limit",
+                        "description":"limit",
+                        "required":true,
+                        "schema":{
+                            "type":"integer",
+                            "default":5
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"ok"
+                    },
+                    "400":{
+                        "description":"Bad request"
+                    },
+                    "500":{
+                        "description":"Server Error"
+                    }
+                }
+            }
+
+        },
+        "/feed/view":{
+            "get":{
+                "tags":[
+                    "feed"
+                ],
+                "summary":"Get all feeds",
+                "description":"Get all feed details in this API ",
+                "responses":{
+                    "200":{
+                        "description":"ok"
+                    },
+                    "400":{
+                        "description":"Bad request"
+                    },
+                    "500":{
+                        "description":"Server Error"
+                    }
+                }
+
+            }
+
+        },
+        "/feed/insert": {
+            "post": {
+                "tags": [
+                    "feed"
+                ],
+                "summary": "new feed ",
+                "description": "This API used for user create new feed",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feed_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "text",
+                                            "image",
+                                            "video"
+                                        ]
+                                    },
+                                    "feed_description": {
+                                        "type": "string"
+                                    },
+                                    "media_name": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/feed/upload/{feed_id}": {
+            "put": {
+                "tags": [
+                    "feed"
+                ],
+                "summary": "update user feed",
+                "description": "This API used for feed description update",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "feed_id",
+                        "description": "feed id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "feed_description": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/feed/delete/{feed_id}": {
+            "delete": {
+                "tags": [
+                    "feed"
+                ],
+                "summary": "feed delete",
+                "description": "This API used for user delete feed",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "feed_id",
+                        "description": "feed id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/likes/getAllLike": {
+            "get": {
+                "tags": [
+                    "like"
+                ],
+                "summary":"Get all Like",
+                "description":"Get all like details in this API ",
+                "parameters":[
+                    {
+                        "in":"query",
+                        "name":"page",
+                        "description":"Page no.",
+                        "required":false,
+                        "schema":{
+                            "type":"integer",
+                            "default":1
+                        }
+                    },
+                    {
+                        "in":"query",
+                        "name":"limit",
+                        "description":"limit",
+                        "required":false,
+                        "schema":{
+                            "type":"integer",
+                            "default":5
+                        }
+                    }
+
+                ],
+                "responses":{
+                    "200":{
+                        "description":"ok"
+                    },
+                    "400":{
+                        "description":"Bad request"
+                    },
+                    "500":{
+                        "description":"Server Error"
+                    }
+                }
+            }
+        },"/likes/insert":{
+            "post":{
+                "tags":[
+                    "like"
+                ],
+                "summary":"Like the feed",
+                "description":"This API used for user like and unlike",
+                "parameters":[
+                    {
+                        "in":"query",
+                        "name":"feed_id",
+                        "required":false,
+                        "schema":{
+                                "feed_id":{
+                                    "type":"integer"
+                                }
+                            }
+                        }
+                ],
+                
+                "responses":{
+                    "200":{
+                        "description":"ok"
+                    },
+                    "400":{
+                        "description":"Bad request"
+                    },
+                    "500":{
+                        "description":"Server Error"
+                    }
+                }, "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/comment/allcomments":{
+            "get":{
+                "tags":[
+                    "comment"
+                ],
+                "summary":"Get all comment",
+                "description":"Get all comment details in this API ",
+                "parameters":[
+                    {
+                        "in":"query",
+                        "name":"page",
+                        "description":"Page no.",
+                        "required":true,
+                        "schema":{
+                            "type":"integer",
+                            "default":1
+                        }
+                    },
+                    {
+                        "in":"query",
+                        "name":"limit",
+                        "description":"limit",
+                        "required":true,
+                        "schema":{
+                            "type":"integer",
+                            "default":5
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"ok"
+                    },
+                    "400":{
+                        "description":"Bad request"
+                    },
+                    "500":{
+                        "description":"Server Error"
+                    }
+                }
+            }
+
+        },
+        "/comment/insert":{
+            "post":{
+                "tags":["comment"],
+                "summary":"Create new comment",
+                "description":"This API used for comment the feed ",
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "feed_id":{
+                                        "type":"integer"
+                                    },
+                                    "comment":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },"responses":{
+                    "200":{
+                        "description":"ok"
+                    },
+                    "400":{
+                        "description":"Bad request"
+                    },
+                    "500":{
+                        "description":"Server Error"
+                    }
+                },"security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ]
+            }
+        },
+        "/comment/update/{comment_id}":{
+            "put":{
+                "tags":["comment"],
+                "summary":"update user feed comment ",
+                "description":"This API used for upadte comment",
+                "parameters":[
+                    {
+                        "in":"path",
+                        "name":"comment_id",
+                        "description":"comment id",
+                        "required":true,
+                        "schema":{
+                            "type":"integer"
+                        }
+                    }
+                ],"requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "comment":{
+                                        "type":"string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },"responses":{
+                    "200":{
+                      "description":"ok"
+                    },
+                    "400":{
+                      "description":"Bad request"
+                    },
+                    "500":{
+                      "description":"Server Error"
+                    }
+                },"security":[
+                  {
+                    "bearerAuth":[]
+                  }
+                ]
+            }
+        },
+        "/comment/delete/{comment_id}":{
+          "delete":{
+            "tags":["comment"],
+            "summary":"Comment Delete",
+            "description":"This API used for delete comment",
+            "parameters":[
+              {
+                "in":"path",
+                "name":"comment_id",
+                "description":"comment id",
+                "required":true,
+                "schema":{
+                  "type":"string"
+                }
+              }
+            ],"responses":{
+              "200":{
+                "description":"ok"
+              },
+              "400":{
+                "description":"Bad request"
+              },
+              "500":{
+                "description":"Server Error"
+              }
+            },"security":[
+              {
+                "bearerAuth":[]
+              }
+            ]
+          }
+        }
+    },
+    "components": {
+        "schemas": {
+            "user": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone_no": {
+                        "type": "string"
+                    },
+                    "DOB": {
+                        "type": "date"
+                    }
+                }
+            },
+            "userUpdate": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone_no": {
+                        "type": "string"
+                    },
+                    "DOB": {
+                        "type": "date"
+                    }
+                }
+            },
+            "userLogin": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "newfeed": {
+                "type": "object",
+                "properties": {
+                    "feed_description": {
+                        "type": "string"
+                    }
+                }
+            },"Like":{
+                "type":"object",
+                "properties":{
+                    "like_id":{
+                        "type":"integer"
+                    }
+                }
+
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

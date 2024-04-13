@@ -1,0 +1,76 @@
+{
+      status: 1,
+      data: [
+            {
+                  feed_id:1,
+                  feed_description: 'sdfs',
+                  feed_media_url: 'http://localhost:5001/uploads/12321.png',
+                  feed_posted_user_id:1,
+                  feed_posted_user_name: "shakthi",
+                  feed_posted_time: "2 minutes ago",
+                  likes: [{
+                        like_id:1,
+                        liked_user_id:1,
+                        liked_user_name:"shakthi",
+                        liked_time: "3 minutes ago"
+                  }],
+                  comments: [{
+                        cmt_id:1,
+                        cmt_description: "cmtt",
+                        cmt_user_id: 1,
+                        cmt_user_name: "shakthi",
+                        cmt_time: "2 minutes ago"
+                  }]
+            }
+      ]
+}
+
+
+select * from feeds limit 10
+      separate user_id from feed result => [1,2,3]
+      separate feed_id from feed result => [1,2,4]
+
+      get like details using above maked feedids
+            select * from likes where feedids in (feed_id)
+                  separate user_id from like result => [1,2,4,5,5]
+                //  {select * from feed where feed_id in(select feed_id from likes)}
+      
+      get cmt details using above maked feedids
+            select * from cmts where feedids in (feed_id)
+                  separate user_id from cmts result => [1,2,4,5,5]
+                 // {select * from comment where feed_id in (select feed_id from feed)}
+      
+      get user details using above maked userids
+            select * from users where ids in (userids)
+           // {select * from userD where id in(id)}
+      
+      feed result => main array
+      user array 
+      like array
+      cmt array
+      
+      feed.map((feed)=>{
+            user.find(f => f.user_id == feed.user_id)
+            likes = likes.filter(f => f.feed_id == feed.feed_id)
+            cmts = cmts.filter(f => f.feed_id == feed.feed_id)
+            likes = likes.map((like) => {
+                        user.find(f => f.user_id == like.user_id)
+                  })
+            cmts = cmts.map((cmt) => {
+                  
+            })
+      })
+            
+
+task 2
+====================================================
+
+select * from feeds limit 10
+
+result.forEach() => lodash after
+async.foreachlimit()
+
+feed.map((feed) => {
+      select * from users where user_id = feed.user_id
+      select * from likes where feed_id = feed.feed_id
+})
